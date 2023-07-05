@@ -18,12 +18,17 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from django.contrib import admin
-from django.urls import path , include
+from django.urls import path, include
 from asosiy.views import *
+
+router = DefaultRouter()
+router.register("albomlar" , AlbomModelViewSet )
+router.register("qoshiqlar" , QoshiqModelViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include(router.urls)),
     path('qoshiqchilar/', QoshiqchilarAPIView.as_view()),
     path('qoshiqchi/<int:pk>/', QoshiqchiDetalView.as_view()),
-    path('qoshiq/<int:pk>/', QoshiqDetalView.as_view()),
+    # path('qoshiq/<int:pk>/', QoshiqDetalView.as_view()),
 ]
