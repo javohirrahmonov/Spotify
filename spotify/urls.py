@@ -24,11 +24,12 @@ from asosiy.views import *
 router = DefaultRouter()
 router.register("albomlar" , AlbomModelViewSet )
 router.register("qoshiqlar" , QoshiqModelViewSet)
+router.register("qoshiqchilar" , QoshiqchiModelViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('qoshiqchilar/', QoshiqchilarAPIView.as_view()),
-    path('qoshiqchi/<int:pk>/', QoshiqchiDetalView.as_view()),
+    # path('qoshiqchilar/', QoshiqchilarAPIView.as_view()),
+    # path('qoshiqchi/<int:pk>/', QoshiqchiDetalView.as_view()),
     # path('qoshiq/<int:pk>/', QoshiqDetalView.as_view()),
 ]

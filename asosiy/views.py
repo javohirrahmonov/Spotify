@@ -8,38 +8,39 @@ from rest_framework.decorators import action
 from rest_framework import filters
 from django.contrib.postgres.search import TrigramSimilarity
 
-class QoshiqchilarAPIView(APIView):
-    def get(self, request):
-        qoshiqchlar = Qoshiqchi.objects.all()
-        serializer = QoshiqchiSerializer(qoshiqchlar, many=True)
-        return Response(serializer.data, status= status.HTTP_200_OK)
-
-    def post(self,request):
-        qoshiqchi = request.data
-        serializer = QoshiqchiSerializer(data=qoshiqchi)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class QoshiqchiDetalView(APIView):
-    def get(self , request, pk):
-        qoshiqchi = Qoshiqchi.objects.get(id=pk)
-        serializer = QoshiqchiSerializer(qoshiqchi)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def delete(self,request,pk):
-        Qoshiqchi.objects.get(id=pk).delete()
-        return Response({"xabar":"Qoshiqchi ma'lumoti o'chirildi."}, status=status.HTTP_200_OK)
-
-    def put(self, request, pk):
-        qoshiqchi = Qoshiqchi.objects.get(id = pk)
-        malumot = request.data
-        serializer = QoshiqchiSaveSerializer(qoshiqchi, data = malumot)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data , status=status.HTTP_202_ACCEPTED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# class QoshiqchilarAPIView(APIView):
+#
+#     def get(self, request):
+#         qoshiqchlar = Qoshiqchi.objects.all()
+#         serializer = QoshiqchiSerializer(qoshiqchlar, many=True)
+#         return Response(serializer.data, status= status.HTTP_200_OK)
+#
+#     def post(self,request):
+#         qoshiqchi = request.data
+#         serializer = QoshiqchiSerializer(data=qoshiqchi)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data,status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+# class QoshiqchiDetalView(APIView):
+#     def get(self , request, pk):
+#         qoshiqchi = Qoshiqchi.objects.get(id=pk)
+#         serializer = QoshiqchiSerializer(qoshiqchi)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+#
+#     def delete(self,request,pk):
+#         Qoshiqchi.objects.get(id=pk).delete()
+#         return Response({"xabar":"Qoshiqchi ma'lumoti o'chirildi."}, status=status.HTTP_200_OK)
+#
+#     def put(self, request, pk):
+#         qoshiqchi = Qoshiqchi.objects.get(id = pk)
+#         malumot = request.data
+#         serializer = QoshiqchiSaveSerializer(qoshiqchi, data = malumot)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data , status=status.HTTP_202_ACCEPTED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # class QoshiqDetalView(APIView):
 #     def get(self , request, pk):
@@ -63,6 +64,9 @@ class QoshiqchiDetalView(APIView):
 class AlbomModelViewSet(ModelViewSet):
     queryset = Albom.objects.all()
     serializer_class = AlbomSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['nom']
+    ordering_fields = ['sana']
 
     @action(detail=True, methods=['GET','POST'])
     def qoshiqlar(self,request, pk):
@@ -88,4 +92,13 @@ class AlbomModelViewSet(ModelViewSet):
 class QoshiqModelViewSet(ModelViewSet):
     queryset = Qoshiq.objects.all()
     serializer_class = QoshiqSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['nom','janr']
+    ordering_fields = ['davomiylig']
 
+class QoshiqchiModelViewSet(ModelViewSet):
+    queryset = Qoshiqchi.objects.all()
+    serializer_class = QoshiqchiSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['ism','davlat']
+    ordering_fields = ['tugilgan_yil']
