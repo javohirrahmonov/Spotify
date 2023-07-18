@@ -38,7 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'asosiy',
+    'drf_spectacular',
 ]
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Spotify API',
+    'DESCRIPTION': 'Dars davomida mashq uchun yozilgan Spotify API loyhasi',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,6 +79,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'spotify.wsgi.application'
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

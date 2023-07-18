@@ -20,6 +20,7 @@ from rest_framework.routers import DefaultRouter
 from django.contrib import admin
 from django.urls import path, include
 from asosiy.views import *
+from drf_spectacular.views import SpectacularSwaggerView, SpectacularRedocView, SpectacularAPIView
 
 router = DefaultRouter()
 router.register("albomlar" , AlbomModelViewSet )
@@ -29,6 +30,9 @@ router.register("qoshiqchilar" , QoshiqchiModelViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path('apiview_docs/', SpectacularAPIView.as_view(), name="schema"),
+    path('docs/', SpectacularSwaggerView.as_view(url_name="schema")),
+    path('redoc/', SpectacularRedocView.as_view(url_name="schema")),
     # path('qoshiqchilar/', QoshiqchilarAPIView.as_view()),
     # path('qoshiqchi/<int:pk>/', QoshiqchiDetalView.as_view()),
     # path('qoshiq/<int:pk>/', QoshiqDetalView.as_view()),

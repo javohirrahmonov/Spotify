@@ -1,7 +1,7 @@
 from datetime import timedelta
 from rest_framework import serializers
 from .models import Qoshiqchi, Albom, Qoshiq
-from django.test import TestCase
+
 
 class QoshiqchiSerializer(serializers.ModelSerializer):
     class Meta:
