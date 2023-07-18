@@ -75,7 +75,7 @@ class AlbomModelViewSet(ModelViewSet):
             albom = self.get_object()
             serializer = QoshiqSerializer(data=qoshiq)
             if serializer.is_valid():
-                a = Qoshiq.objects.create(
+                Qoshiq.objects.create(
                     nom=serializer.validated_data.get('nom'),
                     janr=serializer.validated_data.get('janr'),
                     davomiylik=serializer.validated_data.get('davomiylik'),

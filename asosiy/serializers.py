@@ -1,7 +1,7 @@
 from datetime import timedelta
-
 from rest_framework import serializers
 from .models import Qoshiqchi, Albom, Qoshiq
+from django.test import TestCase
 
 class QoshiqchiSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,3 +43,4 @@ class QoshiqSaveSerializer(serializers.ModelSerializer):
         if qiymat and qiymat > max_duration:
             raise serializers.ValidationError("The duration should not exceed 00:07:00.")
         return qiymat
+
